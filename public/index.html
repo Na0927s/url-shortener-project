@@ -28,6 +28,10 @@
                 e.preventDefault();
                 const longUrl = longUrlInput.value;
 
+                shortenButton.disabled = true;
+                shortenButton.textContent = 'Processing...';
+                resultContainer.classList.add('hidden');
+
                 try {
                     const response = await fetch('/api/shorten', {
                         method: 'POST',
@@ -39,8 +43,19 @@
 
                     const result = await response.json();
 
+                    if (response.ok) {
+                        resultContainer.innerHTML = `<a href="${result.shortUrl}" target="_blank" class="text-blue-400 hover:underline">${result.shortUrl}</a>`;
+                    } else {
+                        resultContainer.textContent = `Error: ${result.error}`;
+                    }
+                    resultContainer.classList.remove('hidden');
+
                 } catch (error) {
-                    console.error('Error:', error);
+                    resultContainer.textContent = 'An unexpected error occurred.';
+                    resultContainer.classList.remove('hidden');
+                } finally {
+                    shortenButton.disabled = false;
+                    shortenButton.textContent = 'Shorten';
                 }
             });
         });
