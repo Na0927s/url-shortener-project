@@ -41,17 +41,17 @@
                         body: JSON.stringify({ longUrl })
                     });
 
-                    const result = await response.json();
-
-                    if (response.ok) {
-                        resultContainer.innerHTML = `<a href="${result.shortUrl}" target="_blank" class="text-blue-400 hover:underline">${result.shortUrl}</a>`;
-                    } else {
-                        resultContainer.textContent = `Error: ${result.error}`;
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || 'An error occurred');
                     }
+
+                    const result = await response.json();
+                    resultContainer.innerHTML = `<a href="${result.shortUrl}" target="_blank" class="text-blue-400 hover:underline">${result.shortUrl}</a>`;
                     resultContainer.classList.remove('hidden');
 
                 } catch (error) {
-                    resultContainer.textContent = 'An unexpected error occurred.';
+                    resultContainer.textContent = error.message;
                     resultContainer.classList.remove('hidden');
                 } finally {
                     shortenButton.disabled = false;
