@@ -18,7 +18,17 @@
         </div>
     </div>
     <script>
-        // JS code will go here
+        document.addEventListener('DOMContentLoaded', () => {
+            const shortenForm = document.getElementById('shorten-form');
+            const longUrlInput = document.getElementById('long-url');
+            const resultContainer = document.getElementById('result-container');
+            const shortenButton = shortenForm.querySelector('button[type="submit"]');
+
+            shortenForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                // More code to come
+            });
+        });
     </script>
 </body>
 </html>
