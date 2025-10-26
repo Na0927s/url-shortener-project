@@ -26,7 +26,22 @@
 
             shortenForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                // More code to come
+                const longUrl = longUrlInput.value;
+
+                try {
+                    const response = await fetch('/api/shorten', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ longUrl })
+                    });
+
+                    const result = await response.json();
+
+                } catch (error) {
+                    console.error('Error:', error);
+                }
             });
         });
     </script>
