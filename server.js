@@ -23,6 +23,17 @@ app.post('/api/shorten', (req, res) => {
   res.send({ shortUrl: `http://localhost:${port}/${shortCode}` });
 });
 
+app.get('/:shortCode', (req, res) => {
+  const { shortCode } = req.params;
+  const longUrl = urlDatabase.get(shortCode);
+
+  if (longUrl) {
+    res.redirect(301, longUrl);
+  } else {
+    res.status(404).send('URL not found');
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
