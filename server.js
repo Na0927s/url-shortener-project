@@ -13,8 +13,8 @@ const urlDatabase = new Map();
 
 app.post('/api/shorten', (req, res) => {
   const { longUrl } = req.body;
-  if (!longUrl) {
-    return res.status(400).send({ error: 'longUrl is required' });
+  if (!longUrl || (!longUrl.startsWith('http://') && !longUrl.startsWith('https://'))) {
+    return res.status(400).send({ error: 'Invalid URL format' });
   }
 
   const shortCode = nanoid(7);
