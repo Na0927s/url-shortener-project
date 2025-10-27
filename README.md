@@ -1,35 +1,35 @@
-# URL Shortener
+# URL Shortener project
 
-This is a simple URL shortener application built with Node.js, Express, and Tailwind CSS.
+이것 프로젝트는 Node.js, Express, Tailwind CSS로 구축된 간단한 URL 단축기 애플리케이션입니다.
 
-## Features
+## 기능 (Features)
 
-- Shorten long URLs to a unique short code.
-- Redirects short codes to their original long URL.
-- Simple and clean user interface.
+- 긴 URL을 고유한 짧은 코드로 단축합니다.
+- 짧은 코드를 원래의 긴 URL로 리디렉션합니다.
+- 간단하고 깔끔한 사용자 인터페이스를 제공합니다.
 
-## Installation
+## 설치 (Installation)
 
-1. Clone the repository:
+1. 저장소(Repository) 클론:
    ```bash
    git clone <repository-url>
    ```
-2. Install dependencies:
+2. 종속성(Dependencies) 설치:
    ```bash
    npm install
    ```
-3. Start the server:
+3. 서버 시작:
    ```bash
    npm start
    ```
 
-## AI Usage
+## AI 활용 (AI Usage)
 
-This project was developed with the assistance of an AI agent. The AI was used for the following tasks:
+이 프로젝트는 AI 에이전트(Gemini GLI)와 AI 챗봇의 도움을 받아 개발되었습니다. AI는 다음 작업에 사용되었습니다.
 
-- Generating the initial project structure.
-- Creating the `package.json` file with the required dependencies.
-- Generating the basic Express server skeleton.
-- Creating the HTML and Tailwind CSS for the user interface.
-- Implementing the JavaScript logic for the frontend, including the fetch API call and error handling.
-- Generating the `README.md` and `DEVELOPMENT_LOG.md` files.
+- 초기 프로젝트 구조 생성.
+- 필요한 종속성이 포함된 package.json 파일 생성.
+- 기본적인 Express 서버 골격 생성.
+- 사용자 인터페이스를 위한 HTML 및 Tailwind CSS 생성.
+- 프론트엔드 JavaScript 로직 구현 (Fetch API 호출 및 오류 처리 포함).
+- README.md 및 DEVELOPMENT_LOG.md 초기 파일 생성.
