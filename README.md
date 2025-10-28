@@ -7,6 +7,14 @@
 - 긴 URL을 고유한 짧은 코드로 단축합니다.
 - 짧은 코드를 원래의 긴 URL로 리디렉션합니다.
 - 간단하고 깔끔한 사용자 인터페이스를 제공합니다.
+- 클립보드 복사 기능을 제공합니다.
+- 히스토리 목록을 통해 전 URL을 보고 삭제 항 수 있습니다.
+
+## 기술 스택 (Tech Stack)
+
+- Backend: Node.js, Express
+- Frontend: Vanilla JS, Tailwind CSS
+- API: nanoid (for generating short codes)
 
 ## 설치 (Installation)
 
@@ -33,3 +41,6 @@
 - 사용자 인터페이스를 위한 HTML 및 Tailwind CSS 생성.
 - 프론트엔드 JavaScript 로직 구현 (Fetch API 호출 및 오류 처리 포함).
 - README.md 및 DEVELOPMENT_LOG.md 초기 파일 생성.
+- 클립보드 복사 기능 구현.
+- URL 히스토리 기능 구현 (로컬 스토리지 저장/삭제, 목록 표시).
+- URL 히스토리 목록 개수 제한 (최신 10개 유지).
