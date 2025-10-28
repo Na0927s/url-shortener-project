@@ -47,7 +47,12 @@
                     }
 
                     const result = await response.json();
-                    resultContainer.innerHTML = `<a href="${result.shortUrl}" target="_blank" class="text-blue-400 hover:underline">${result.shortUrl}</a>`;
+                    resultContainer.innerHTML = `
+                        <div class="flex items-center justify-center">
+                            <a href="${result.shortUrl}" target="_blank" class="text-blue-400 hover:underline" id="short-url">${result.shortUrl}</a>
+                            <button id="copy-button" class="ml-4 px-3 py-1 bg-gray-600 rounded-md hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 text-sm font-semibold">Copy</button>
+                        </div>
+                    `;
                     resultContainer.classList.remove('hidden');
 
                 } catch (error) {
@@ -56,6 +61,16 @@
                 } finally {
                     shortenButton.disabled = false;
                     shortenButton.textContent = 'Shorten';
+                }
+            });            resultContainer.addEventListener('click', (e) => {
+                if (e.target.id === 'copy-button') {
+                    const shortUrl = document.getElementById('short-url').href;
+                    navigator.clipboard.writeText(shortUrl).then(() => {
+                        e.target.textContent = 'Copied!';
+                        setTimeout(() => {
+                            e.target.textContent = 'Copy';
+                        }, 2000);
+                    });
                 }
             });
         });
