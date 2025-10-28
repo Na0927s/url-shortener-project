@@ -15,6 +15,12 @@
                 <button type="submit" class="mt-4 px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold">Shorten</button>
             </form>
             <div id="result-container" class="text-center mt-8 bg-gray-700 p-4 rounded-lg hidden"></div>
+
+            <div id="history-container" class="mt-8 w-full">
+                <h2 class="text-2xl font-bold text-center mb-4">History</h2>
+                <div id="history-list" class="bg-gray-700 p-4 rounded-lg"></div>
+                <button id="clear-history-button" class="mt-4 w-full px-6 py-3 bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 font-semibold">Clear History</button>
+            </div>
         </div>
     </div>
     <script>
@@ -23,6 +29,55 @@
             const longUrlInput = document.getElementById('long-url');
             const resultContainer = document.getElementById('result-container');
             const shortenButton = shortenForm.querySelector('button[type="submit"]');
+            const historyList = document.getElementById('history-list');
+            const clearHistoryButton = document.getElementById('clear-history-button');
+
+            let urlHistory = [];
+
+            // Load history from local storage
+            const loadHistory = () => {
+                const storedHistory = localStorage.getItem('urlHistory');
+                if (storedHistory) {
+                    urlHistory = JSON.parse(storedHistory);
+                }
+            };
+
+            // Save history to local storage
+            const saveHistory = () => {
+                localStorage.setItem('urlHistory', JSON.stringify(urlHistory));
+            };
+
+            // Render history list
+            const renderHistory = () => {
+                historyList.innerHTML = '';
+                if (urlHistory.length === 0) {
+                    historyList.innerHTML = '<p class="text-center text-gray-400">No history yet.</p>';
+                    return;
+                }
+                urlHistory.forEach((item, index) => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'flex items-center justify-between p-2 mb-2 bg-gray-800 rounded-md';
+                    historyItem.innerHTML = `
+                        <a href="${item.shortUrl}" target="_blank" class="text-blue-400 hover:underline truncate">${item.shortUrl}</a>
+                        <button data-index="${index}" class="delete-button ml-4 px-2 py-1 bg-red-600 rounded-md hover:bg-red-700 text-sm font-semibold">X</button>
+                    `;
+                    historyList.appendChild(historyItem);
+                });
+            };
+
+            // Delete URL from history
+            const deleteUrlFromHistory = (index) => {
+                urlHistory.splice(index, 1);
+                saveHistory();
+                renderHistory();
+            };
+
+            // Clear all history
+            const clearAllHistory = () => {
+                urlHistory = [];
+                saveHistory();
+                renderHistory();
+            };
 
             shortenForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -55,6 +110,14 @@
                     `;
                     resultContainer.classList.remove('hidden');
 
+                    // Save to history
+                    urlHistory.unshift({ longUrl, shortUrl: result.shortUrl });
+                    if (urlHistory.length > 10) {
+                        urlHistory.pop(); // Remove the oldest entry
+                    }
+                    saveHistory();
+                    renderHistory();
+
                 } catch (error) {
                     resultContainer.textContent = error.message;
                     resultContainer.classList.remove('hidden');
@@ -62,7 +125,9 @@
                     shortenButton.disabled = false;
                     shortenButton.textContent = 'Shorten';
                 }
-            });            resultContainer.addEventListener('click', (e) => {
+            });
+
+            resultContainer.addEventListener('click', (e) => {
                 if (e.target.id === 'copy-button') {
                     const shortUrl = document.getElementById('short-url').href;
                     navigator.clipboard.writeText(shortUrl).then(() => {
@@ -73,6 +138,19 @@
                     });
                 }
             });
+
+            historyList.addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-button')) {
+                    const index = e.target.dataset.index;
+                    deleteUrlFromHistory(index);
+                }
+            });
+
+            clearHistoryButton.addEventListener('click', clearAllHistory);
+
+            // Initial load and render
+            loadHistory();
+            renderHistory();
         });
     </script>
 </body>
